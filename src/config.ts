@@ -1,6 +1,9 @@
 import type { AdoptureInitOptions } from './types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore -- JSON import works in both Metro and bundled builds
+import pkg from '../package.json' with { type: 'json' };
 
-declare const __SDK_VERSION__: string;
+const SDK_VERSION: string = pkg.version;
 
 const APP_KEY_REGEX = /^ak_[A-Za-z0-9]{24}$/;
 
@@ -32,7 +35,7 @@ export function createConfig(options: AdoptureInitOptions): AdoptureConfig {
     flushAt: options.flushAt ?? 20,
     maxQueueSize: options.maxQueueSize ?? 1000,
     hashUserIds: options.hashUserIds ?? true,
-    sdkVersion: __SDK_VERSION__,
+    sdkVersion: SDK_VERSION,
     appVersion: options.appVersion ?? '',
   };
 
