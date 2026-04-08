@@ -1,13 +1,5 @@
-<p align="center">
-  <a href="https://adopture.com">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://adopture.com/logo-dark.svg" />
-      <img src="https://adopture.com/logo-light.svg" alt="Adopture" width="200" />
-    </picture>
-  </a>
-</p>
-
-<h3 align="center">Privacy-first mobile analytics</h3>
+<h1 align="center"><a href="https://adopture.com">Adopture</a></h1>
+<h3 align="center">Privacy-first mobile analytics for React Native</h3>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@adopture/react-native"><img src="https://img.shields.io/npm/v/@adopture/react-native.svg" alt="npm version" /></a>
