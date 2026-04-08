@@ -1,0 +1,83 @@
+{
+  "name": "@adopture/react-native",
+  "version": "0.1.0",
+  "description": "Privacy-first mobile analytics SDK for React Native & Expo",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "react-native": "src/index.ts",
+  "exports": {
+    ".": {
+      "react-native": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./react": {
+      "react-native": "./src/react/index.ts",
+      "import": "./dist/react.mjs",
+      "require": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "analytics",
+    "react-native",
+    "expo",
+    "privacy",
+    "mobile",
+    "tracking"
+  ],
+  "homepage": "https://adopture.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christopherarm/mobileanalytics",
+    "directory": "packages/react-native-sdk"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.70.0",
+    "@react-native-async-storage/async-storage": ">=1.19.0"
+  },
+  "peerDependenciesMeta": {
+    "@react-native-community/netinfo": {
+      "optional": true
+    },
+    "@react-navigation/native": {
+      "optional": true
+    },
+    "expo-localization": {
+      "optional": true
+    },
+    "expo-constants": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "react-native-get-random-values": "^1.11.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@react-native-async-storage/async-storage": "^1.23.0",
+    "@react-native-community/netinfo": "^11.0.0",
+    "@react-navigation/native": "^6.0.0",
+    "@types/react": "^18.2.0",
+    "@types/uuid": "^9.0.0",
+    "react": "^18.2.0",
+    "react-native": "^0.74.0",
+    "tsup": "^8.0.0",
+    "typescript": "~5.9.3",
+    "vitest": "^1.0.0"
+  }
+}

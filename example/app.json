@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Adopture SDK Test",
+    "slug": "adopture-sdk-example",
+    "version": "1.0.0",
+    "scheme": "adopture-example",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.adopture.sdk.example"
+    },
+    "android": {
+      "package": "com.adopture.sdk.example"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
