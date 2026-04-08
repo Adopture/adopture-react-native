@@ -9,20 +9,22 @@
   "react-native": "src/index.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "react-native": "./src/index.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./react": {
+      "types": "./dist/react.d.ts",
       "react-native": "./src/react/index.ts",
       "import": "./dist/react.mjs",
-      "require": "./dist/react.js",
-      "types": "./dist/react.d.ts"
+      "require": "./dist/react.js"
     }
   },
+  "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
     "build": "tsup",
@@ -41,14 +43,20 @@
   "homepage": "https://adopture.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/christopherarm/mobileanalytics",
-    "directory": "packages/react-native-sdk"
+    "url": "https://github.com/Adopture/adopture-react-native"
+  },
+  "bugs": {
+    "url": "https://github.com/Adopture/adopture-react-native/issues"
   },
   "license": "MIT",
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-native": ">=0.70.0",
-    "@react-native-async-storage/async-storage": ">=1.19.0"
+    "@react-native-async-storage/async-storage": ">=1.19.0",
+    "@react-native-community/netinfo": ">=9.0.0",
+    "@react-navigation/native": ">=6.0.0",
+    "expo-localization": ">=14.0.0",
+    "expo-constants": ">=14.0.0"
   },
   "peerDependenciesMeta": {
     "@react-native-community/netinfo": {
