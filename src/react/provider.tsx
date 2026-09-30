@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { Adopture } from '../adopture';
-import type { AdoptureInitOptions } from '../types';
+import { Adopture } from "../adopture";
+import type { AdoptureInitOptions } from "../types";
 
 interface AdoptureContextValue {
   adopture: typeof Adopture;
@@ -14,7 +14,7 @@ export interface AdoptureProviderProps {
   /** App key for authentication. */
   appKey: string;
   /** Additional init options (excluding appKey). */
-  options?: Omit<AdoptureInitOptions, 'appKey'>;
+  options?: Omit<AdoptureInitOptions, "appKey">;
   children: React.ReactNode;
 }
 
@@ -47,7 +47,7 @@ export function AdoptureProvider({
         if (mounted) setReady(true);
       })
       .catch((err) => {
-        console.error('[Adopture] Init failed:', err);
+        console.error("[Adopture] Init failed:", err);
       });
 
     return () => {
@@ -71,7 +71,7 @@ export function AdoptureProvider({
 export function useAdoptureContext(): AdoptureContextValue {
   const ctx = useContext(AdoptureContext);
   if (!ctx) {
-    throw new Error('useAdopture must be used within an <AdoptureProvider>');
+    throw new Error("useAdopture must be used within an <AdoptureProvider>");
   }
   return ctx;
 }

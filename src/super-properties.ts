@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const STORAGE_KEY = '@adopture/super_props';
+const STORAGE_KEY = "@adopture/super_props";
 
 /**
  * Global event properties that persist across app sessions.

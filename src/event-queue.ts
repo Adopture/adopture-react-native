@@ -1,8 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import type { AnalyticsEvent } from './types';
+import type { AnalyticsEvent } from "./types";
 
-const STORAGE_KEY = '@adopture/event_queue';
+const STORAGE_KEY = "@adopture/event_queue";
 
 /** Manages event queuing with in-memory list backed by AsyncStorage. */
 export class EventQueue {

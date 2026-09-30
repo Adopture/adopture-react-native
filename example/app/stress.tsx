@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,23 +7,22 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-} from 'react-native';
-import { Adopture } from '@adopture/react-native';
+} from "react-native";
+import { Adopture } from "@adopture/react-native";
 
 export default function StressTestScreen() {
   const [isSending, setIsSending] = useState(false);
   const [, forceUpdate] = useState(0);
 
   useEffect(() => {
-    Adopture.screen('StressTestScreen');
+    Adopture.screen("StressTestScreen");
   }, []);
 
-  const showResult = (msg: string) =>
-    Alert.alert('Result', msg, [{ text: 'OK' }]);
+  const showResult = (msg: string) => Alert.alert("Result", msg, [{ text: "OK" }]);
 
   async function burst(count: number) {
     for (let i = 0; i < count; i++) {
-      Adopture.track('stress_event', {
+      Adopture.track("stress_event", {
         index: String(i),
         total: String(count),
         batch: String(Date.now()),
@@ -39,14 +38,14 @@ export default function StressTestScreen() {
     const queueAfterDisable = Adopture.queueLength;
 
     // 2. Try to track (should be silently dropped)
-    Adopture.track('should_be_dropped', { phase: 'disabled' });
+    Adopture.track("should_be_dropped", { phase: "disabled" });
     const queueAfterDropped = Adopture.queueLength;
 
     // 3. Re-enable
     Adopture.enable();
 
     // 4. Track for real
-    Adopture.track('after_reenable', { phase: 'enabled' });
+    Adopture.track("after_reenable", { phase: "enabled" });
     const queueAfterEnable = Adopture.queueLength;
 
     forceUpdate((n) => n + 1);
@@ -69,19 +68,18 @@ export default function StressTestScreen() {
             <View
               style={[
                 styles.statusDot,
-                { backgroundColor: Adopture.isEnabled ? '#4ade80' : '#ef4444' },
+                { backgroundColor: Adopture.isEnabled ? "#4ade80" : "#ef4444" },
               ]}
             />
             <Text style={styles.statusText}>
-              {Adopture.isEnabled ? 'TRACKING ON' : 'TRACKING OFF'}
+              {Adopture.isEnabled ? "TRACKING ON" : "TRACKING OFF"}
             </Text>
           </View>
           <Text style={styles.mono}>Queue: {Adopture.queueLength}</Text>
         </View>
         {ctx && (
           <Text style={styles.deviceInfo}>
-            {ctx.os} {ctx.os_version} · {ctx.device_type} · {ctx.screen_width}x
-            {ctx.screen_height}
+            {ctx.os} {ctx.os_version} · {ctx.device_type} · {ctx.screen_width}x{ctx.screen_height}
           </Text>
         )}
       </View>
@@ -140,9 +138,9 @@ export default function StressTestScreen() {
         onRun={() => {
           const props: Record<string, string> = {};
           for (let i = 0; i < 10; i++) {
-            props[`key_${i}`] = 'v'.repeat(100);
+            props[`key_${i}`] = "v".repeat(100);
           }
-          Adopture.track('large_props_event', props);
+          Adopture.track("large_props_event", props);
           forceUpdate((n) => n + 1);
           showResult(
             `Tracked large_props_event with 10 properties.\nQueue: ${Adopture.queueLength}`,
@@ -154,10 +152,26 @@ export default function StressTestScreen() {
         description="Fire 20 screen() calls to simulate fast navigation."
         onRun={() => {
           const screens = [
-            'Home', 'Profile', 'Settings', 'Shop', 'Cart',
-            'Checkout', 'OrderConfirm', 'Search', 'Filters', 'Detail',
-            'Reviews', 'Wishlist', 'Notifications', 'Messages', 'Help',
-            'About', 'Terms', 'Privacy', 'Account', 'Billing',
+            "Home",
+            "Profile",
+            "Settings",
+            "Shop",
+            "Cart",
+            "Checkout",
+            "OrderConfirm",
+            "Search",
+            "Filters",
+            "Detail",
+            "Reviews",
+            "Wishlist",
+            "Notifications",
+            "Messages",
+            "Help",
+            "About",
+            "Terms",
+            "Privacy",
+            "Account",
+            "Billing",
           ];
           for (const s of screens) {
             Adopture.screen(s);
@@ -168,7 +182,7 @@ export default function StressTestScreen() {
       />
 
       {isSending && (
-        <View style={{ alignItems: 'center', padding: 16 }}>
+        <View style={{ alignItems: "center", padding: 16 }}>
           <ActivityIndicator color="#6366f1" />
         </View>
       )}
@@ -201,39 +215,39 @@ function TestCard({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#16213e' },
+  container: { flex: 1, backgroundColor: "#16213e" },
   card: {
-    backgroundColor: '#1a1a2e',
+    backgroundColor: "#1a1a2e",
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
   },
   cardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  statusRow: { flexDirection: 'row', alignItems: 'center' },
+  statusRow: { flexDirection: "row", alignItems: "center" },
   statusDot: { width: 10, height: 10, borderRadius: 5, marginRight: 8 },
-  statusText: { color: '#fff', fontWeight: 'bold', fontSize: 13 },
-  mono: { color: '#fff', fontFamily: 'monospace', fontWeight: 'bold' },
-  deviceInfo: { color: '#6b7280', fontSize: 11, marginTop: 8 },
+  statusText: { color: "#fff", fontWeight: "bold", fontSize: 13 },
+  mono: { color: "#fff", fontFamily: "monospace", fontWeight: "bold" },
+  deviceInfo: { color: "#6b7280", fontSize: 11, marginTop: 8 },
   testCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1a1a2e',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#1a1a2e",
     borderRadius: 10,
     padding: 14,
     marginBottom: 8,
   },
-  testTitle: { color: '#fff', fontSize: 14, fontWeight: '600' },
-  testDesc: { color: '#6b7280', fontSize: 11, marginTop: 4 },
+  testTitle: { color: "#fff", fontSize: 14, fontWeight: "600" },
+  testDesc: { color: "#6b7280", fontSize: 11, marginTop: 4 },
   runBtn: {
-    backgroundColor: '#4f46e5',
+    backgroundColor: "#4f46e5",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
     marginLeft: 12,
   },
-  runBtnText: { color: '#fff', fontSize: 13, fontWeight: '600' },
+  runBtnText: { color: "#fff", fontSize: 13, fontWeight: "600" },
 });

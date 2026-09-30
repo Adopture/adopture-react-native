@@ -8,7 +8,7 @@
  */
 
 /** Event types matching the backend schema. */
-export type EventType = 'track' | 'screen' | 'revenue';
+export type EventType = "track" | "screen" | "revenue";
 
 /** Device context attached to every event. */
 export interface EventContext {
@@ -45,16 +45,16 @@ export interface EventPayload {
 
 /** Revenue event types matching the backend revenue_events schema. */
 export type RevenueEventType =
-  | 'INITIAL_PURCHASE'
-  | 'RENEWAL'
-  | 'NON_RENEWING_PURCHASE'
-  | 'CANCELLATION'
-  | 'REFUND'
-  | 'TRIAL_STARTED'
-  | 'TRIAL_CONVERTED';
+  | "INITIAL_PURCHASE"
+  | "RENEWAL"
+  | "NON_RENEWING_PURCHASE"
+  | "CANCELLATION"
+  | "REFUND"
+  | "TRIAL_STARTED"
+  | "TRIAL_CONVERTED";
 
 /** Store where the purchase was made. */
-export type Store = 'APP_STORE' | 'PLAY_STORE' | 'STRIPE' | 'OTHER';
+export type Store = "APP_STORE" | "PLAY_STORE" | "STRIPE" | "OTHER";
 
 /** Revenue tracking data attached to a revenue event. */
 export interface RevenueData {
@@ -67,7 +67,7 @@ export interface RevenueData {
   store?: Store;
   is_trial?: boolean;
   is_trial_conversion?: boolean;
-  period_type?: '' | 'TRIAL' | 'INTRO' | 'NORMAL';
+  period_type?: "" | "TRIAL" | "INTRO" | "NORMAL";
   expiration_at?: string;
 }
 

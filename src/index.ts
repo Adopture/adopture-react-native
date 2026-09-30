@@ -1,5 +1,5 @@
-export { Adopture } from './adopture';
-export { formatScreenName } from './navigation';
+export { Adopture } from "./adopture";
+export { formatScreenName } from "./navigation";
 
 export type {
   AdoptureInitOptions,
@@ -16,4 +16,4 @@ export type {
   TrialConvertedOptions,
   CancellationOptions,
   RefundOptions,
-} from './types';
+} from "./types";

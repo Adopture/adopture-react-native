@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Adopture } from '@adopture/react-native';
-import type { RevenueData } from '@adopture/react-native';
+import { useEffect } from "react";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { Adopture } from "@adopture/react-native";
+import type { RevenueData } from "@adopture/react-native";
 
 export default function RevenueScreen() {
   useEffect(() => {
-    Adopture.screen('RevenueDemoScreen');
+    Adopture.screen("RevenueDemoScreen");
   }, []);
 
-  const show = (msg: string) => Alert.alert('Tracked', msg);
+  const show = (msg: string) => Alert.alert("Tracked", msg);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 16 }}>
@@ -19,12 +19,12 @@ export default function RevenueScreen() {
         color="#4f46e5"
         onPress={() => {
           Adopture.trackPurchase({
-            productId: 'com.example.premium_monthly',
+            productId: "com.example.premium_monthly",
             price: 9.99,
-            currency: 'USD',
+            currency: "USD",
             transactionId: `txn_${Date.now()}`,
           });
-          show('purchase $9.99 USD');
+          show("purchase $9.99 USD");
         }}
       />
 
@@ -33,12 +33,12 @@ export default function RevenueScreen() {
         color="#4f46e5"
         onPress={() => {
           Adopture.trackOneTimePurchase({
-            productId: 'com.example.lifetime_access',
+            productId: "com.example.lifetime_access",
             price: 49.99,
-            currency: 'USD',
+            currency: "USD",
             transactionId: `txn_${Date.now()}`,
           });
-          show('one-time purchase $49.99 USD');
+          show("one-time purchase $49.99 USD");
         }}
       />
 
@@ -47,12 +47,12 @@ export default function RevenueScreen() {
         color="#4f46e5"
         onPress={() => {
           Adopture.trackRenewal({
-            productId: 'com.example.premium_monthly',
+            productId: "com.example.premium_monthly",
             price: 9.99,
-            currency: 'USD',
+            currency: "USD",
             transactionId: `txn_${Date.now()}`,
           });
-          show('renewal $9.99 USD');
+          show("renewal $9.99 USD");
         }}
       />
 
@@ -62,10 +62,10 @@ export default function RevenueScreen() {
         onPress={() => {
           const exp = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
           Adopture.trackTrialStarted({
-            productId: 'com.example.premium_monthly',
-            expirationAt: exp.toISOString().split('.')[0] + 'Z',
+            productId: "com.example.premium_monthly",
+            expirationAt: exp.toISOString().split(".")[0] + "Z",
           });
-          show('trial started (7 days)');
+          show("trial started (7 days)");
         }}
       />
 
@@ -74,12 +74,12 @@ export default function RevenueScreen() {
         color="#22c55e"
         onPress={() => {
           Adopture.trackTrialConverted({
-            productId: 'com.example.premium_monthly',
+            productId: "com.example.premium_monthly",
             price: 9.99,
-            currency: 'USD',
+            currency: "USD",
             transactionId: `txn_${Date.now()}`,
           });
-          show('trial converted $9.99 USD');
+          show("trial converted $9.99 USD");
         }}
       />
 
@@ -88,9 +88,9 @@ export default function RevenueScreen() {
         color="#f97316"
         onPress={() => {
           Adopture.trackCancellation({
-            productId: 'com.example.premium_monthly',
+            productId: "com.example.premium_monthly",
           });
-          show('cancellation');
+          show("cancellation");
         }}
       />
 
@@ -99,12 +99,12 @@ export default function RevenueScreen() {
         color="#ef4444"
         onPress={() => {
           Adopture.trackRefund({
-            productId: 'com.example.premium_monthly',
+            productId: "com.example.premium_monthly",
             price: 9.99,
-            currency: 'USD',
+            currency: "USD",
             transactionId: `txn_${Date.now()}`,
           });
-          show('refund $9.99 USD');
+          show("refund $9.99 USD");
         }}
       />
 
@@ -113,15 +113,15 @@ export default function RevenueScreen() {
         color="#4f46e5"
         onPress={() => {
           const revenue: RevenueData = {
-            event_type: 'NON_RENEWING_PURCHASE',
-            product_id: 'com.example.coin_pack_500',
+            event_type: "NON_RENEWING_PURCHASE",
+            product_id: "com.example.coin_pack_500",
             price: 4.99,
-            currency: 'EUR',
+            currency: "EUR",
             quantity: 2,
-            store: 'APP_STORE',
+            store: "APP_STORE",
           };
           Adopture.trackRevenue(revenue);
-          show('custom revenue 2x 4.99 EUR');
+          show("custom revenue 2x 4.99 EUR");
         }}
       />
 
@@ -140,23 +140,20 @@ function RevenueButton({
   onPress: () => void;
 }) {
   return (
-    <TouchableOpacity
-      style={[styles.button, { backgroundColor: color }]}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={[styles.button, { backgroundColor: color }]} onPress={onPress}>
       <Text style={styles.buttonText}>{label}</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#16213e' },
-  heading: { color: '#fff', fontSize: 16, fontWeight: 'bold', marginBottom: 16 },
+  container: { flex: 1, backgroundColor: "#16213e" },
+  heading: { color: "#fff", fontSize: 16, fontWeight: "bold", marginBottom: 16 },
   button: {
     paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 10,
     marginBottom: 8,
   },
-  buttonText: { color: '#fff', fontSize: 14, fontWeight: '600', textAlign: 'center' },
+  buttonText: { color: "#fff", fontSize: 14, fontWeight: "600", textAlign: "center" },
 });

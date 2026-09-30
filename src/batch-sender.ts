@@ -1,14 +1,14 @@
-import type { AdoptureConfig } from './config';
-import type { EventQueue } from './event-queue';
-import { log } from './logger';
-import type { AnalyticsEvent, EventPayload } from './types';
-import { generateUUID } from './utils';
+import type { AdoptureConfig } from "./config";
+import type { EventQueue } from "./event-queue";
+import { log } from "./logger";
+import type { AnalyticsEvent, EventPayload } from "./types";
+import { generateUUID } from "./utils";
 
 const MAX_BATCH_SIZE = 100;
 const MAX_RETRIES = 5;
 const MAX_BACKOFF_MS = 30_000;
 
-type SendResult = 'success' | 'rate_limited' | 'server_error' | 'network_error';
+type SendResult = "success" | "rate_limited" | "server_error" | "network_error";
 
 /** Sends batched events to the ingestion endpoint with retry logic. */
 export class BatchSender {
@@ -70,7 +70,7 @@ export class BatchSender {
         log(`Sending batch of ${events.length} events...`);
         const result = await this.sendWithRetry(events);
 
-        if (result === 'success') {
+        if (result === "success") {
           log(`Batch sent successfully (${events.length} events)`);
         } else {
           log(`Batch failed: ${result} — re-queuing ${events.length} events`);
@@ -93,7 +93,7 @@ export class BatchSender {
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
       const result = await this.send(events);
 
-      if (result === 'success' || result === 'rate_limited') {
+      if (result === "success" || result === "rate_limited") {
         return result;
       }
 
@@ -106,7 +106,7 @@ export class BatchSender {
       }
     }
 
-    return 'network_error';
+    return "network_error";
   }
 
   private async send(events: AnalyticsEvent[]): Promise<SendResult> {
@@ -122,10 +122,10 @@ export class BatchSender {
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Idempotency-Key': generateUUID(),
+          "Content-Type": "application/json",
+          "Idempotency-Key": generateUUID(),
         },
         body,
       });
@@ -133,31 +133,31 @@ export class BatchSender {
       log(`HTTP ${response.status} from ${url}`);
 
       if (response.status === 202) {
-        return 'success';
+        return "success";
       } else if (response.status === 429) {
-        const retryAfter = response.headers.get('retry-after');
-        const seconds = parseInt(retryAfter ?? '', 10) || 60;
+        const retryAfter = response.headers.get("retry-after");
+        const seconds = parseInt(retryAfter ?? "", 10) || 60;
         log(`Rate limited — will retry after ${seconds}s (next flush cycle)`);
-        return 'rate_limited';
+        return "rate_limited";
       } else if (response.status === 503) {
-        log('Server overloaded — retry after 30s');
+        log("Server overloaded — retry after 30s");
         await sleep(30_000);
-        return 'server_error';
+        return "server_error";
       } else {
-        const text = await response.text().catch(() => '');
+        const text = await response.text().catch(() => "");
         log(`Unexpected response: ${response.status} ${text}`);
-        return 'server_error';
+        return "server_error";
       }
     } catch (e) {
       log(`Network error: ${e}`);
-      return 'network_error';
+      return "network_error";
     }
   }
 
   private async isOffline(): Promise<boolean> {
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const NetInfo = require('@react-native-community/netinfo').default;
+      const NetInfo = require("@react-native-community/netinfo").default;
       const state = await NetInfo.fetch();
       return state.isConnected === false;
     } catch {
@@ -169,12 +169,12 @@ export class BatchSender {
   private setupConnectivityListener(): void {
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const NetInfo = require('@react-native-community/netinfo').default;
+      const NetInfo = require("@react-native-community/netinfo").default;
       this.netInfoUnsubscribe = NetInfo.addEventListener(
         (state: { isConnected: boolean | null }) => {
           const isOffline = state.isConnected === false;
           if (this.wasOffline && !isOffline) {
-            log('Network restored — flushing queued events');
+            log("Network restored — flushing queued events");
             this.flush().catch(() => {});
           }
           this.wasOffline = isOffline;

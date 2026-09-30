@@ -1,28 +1,21 @@
-import { useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Alert,
-} from 'react-native';
-import { Adopture } from '@adopture/react-native';
+import { useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from "react-native";
+import { Adopture } from "@adopture/react-native";
 
 const PRODUCTS = [
-  { name: 'Wireless Headphones', price: '79.99', category: 'electronics' },
-  { name: 'Running Shoes', price: '129.00', category: 'sports' },
-  { name: 'Coffee Beans 1kg', price: '24.50', category: 'food' },
-  { name: 'React Native Book', price: '39.99', category: 'books' },
-  { name: 'USB-C Hub', price: '49.99', category: 'electronics' },
+  { name: "Wireless Headphones", price: "79.99", category: "electronics" },
+  { name: "Running Shoes", price: "129.00", category: "sports" },
+  { name: "Coffee Beans 1kg", price: "24.50", category: "food" },
+  { name: "React Native Book", price: "39.99", category: "books" },
+  { name: "USB-C Hub", price: "49.99", category: "electronics" },
 ];
 
 export default function ShopScreen() {
   useEffect(() => {
-    Adopture.screen('ShopScreen');
+    Adopture.screen("ShopScreen");
   }, []);
 
-  const show = (msg: string) => Alert.alert('Tracked', msg);
+  const show = (msg: string) => Alert.alert("Tracked", msg);
 
   return (
     <View style={styles.container}>
@@ -42,7 +35,7 @@ export default function ShopScreen() {
               <TouchableOpacity
                 style={styles.iconBtn}
                 onPress={() => {
-                  Adopture.track('product_viewed', {
+                  Adopture.track("product_viewed", {
                     product: item.name,
                     price: item.price,
                     category: item.category,
@@ -55,7 +48,7 @@ export default function ShopScreen() {
               <TouchableOpacity
                 style={styles.iconBtn}
                 onPress={() => {
-                  Adopture.track('add_to_cart', {
+                  Adopture.track("add_to_cart", {
                     product: item.name,
                     price: item.price,
                     category: item.category,
@@ -74,11 +67,11 @@ export default function ShopScreen() {
       <TouchableOpacity
         style={styles.fab}
         onPress={() => {
-          Adopture.track('checkout_started', {
-            item_count: '3',
-            total: '249.48',
+          Adopture.track("checkout_started", {
+            item_count: "3",
+            total: "249.48",
           });
-          show('checkout_started');
+          show("checkout_started");
         }}
       >
         <Text style={styles.fabText}>Checkout</Text>
@@ -88,38 +81,38 @@ export default function ShopScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#16213e' },
+  container: { flex: 1, backgroundColor: "#16213e" },
   productCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1a1a2e',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#1a1a2e",
     borderRadius: 10,
     padding: 14,
     marginBottom: 8,
   },
-  productName: { color: '#fff', fontSize: 15, fontWeight: '600' },
-  productMeta: { color: '#6b7280', fontSize: 12, marginTop: 4 },
-  productActions: { flexDirection: 'row', gap: 8 },
+  productName: { color: "#fff", fontSize: 15, fontWeight: "600" },
+  productMeta: { color: "#6b7280", fontSize: 12, marginTop: 4 },
+  productActions: { flexDirection: "row", gap: 8 },
   iconBtn: {
-    backgroundColor: '#374151',
+    backgroundColor: "#374151",
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 6,
   },
-  iconBtnText: { color: '#d1d5db', fontSize: 11 },
+  iconBtnText: { color: "#d1d5db", fontSize: 11 },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 24,
     right: 20,
-    backgroundColor: '#4f46e5',
+    backgroundColor: "#4f46e5",
     paddingHorizontal: 24,
     paddingVertical: 14,
     borderRadius: 28,
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
-  fabText: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  fabText: { color: "#fff", fontSize: 15, fontWeight: "600" },
 });

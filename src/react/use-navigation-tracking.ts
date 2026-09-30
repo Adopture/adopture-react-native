@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
-import { Adopture } from '../adopture';
-import type { NavigationTracking } from '../navigation';
+import { Adopture } from "../adopture";
+import type { NavigationTracking } from "../navigation";
 
 type NavigationRef = Parameters<typeof Adopture.createNavigationTracking>[0];
 
@@ -15,9 +15,7 @@ type NavigationRef = Parameters<typeof Adopture.createNavigationTracking>[0];
  * return <NavigationContainer ref={navigationRef}>...</NavigationContainer>;
  * ```
  */
-export function useAdoptureNavigationTracking(
-  navigationRef: NavigationRef,
-): void {
+export function useAdoptureNavigationTracking(navigationRef: NavigationRef): void {
   const trackingRef = useRef<NavigationTracking | null>(null);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { generateUUID } from './utils';
+import { generateUUID } from "./utils";
 
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
 

@@ -1,19 +1,13 @@
-import { useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
-import { Adopture } from '@adopture/react-native';
+import { useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { Adopture } from "@adopture/react-native";
 
 export default function ProfileScreen() {
   useEffect(() => {
-    Adopture.screen('ProfileScreen');
+    Adopture.screen("ProfileScreen");
   }, []);
 
-  const show = (msg: string) => Alert.alert('Tracked', msg);
+  const show = (msg: string) => Alert.alert("Tracked", msg);
 
   return (
     <View style={styles.container}>
@@ -29,23 +23,23 @@ export default function ProfileScreen() {
         <ListItem
           label="Edit Profile"
           onPress={() => {
-            Adopture.track('profile_edit_tapped');
-            show('profile_edit_tapped');
+            Adopture.track("profile_edit_tapped");
+            show("profile_edit_tapped");
           }}
         />
         <ListItem
           label="Change Avatar"
           onPress={() => {
-            Adopture.track('avatar_change_tapped');
-            show('avatar_change_tapped');
+            Adopture.track("avatar_change_tapped");
+            show("avatar_change_tapped");
           }}
         />
         <ListItem
           label="Logout"
           onPress={() => {
-            Adopture.track('logout_tapped');
+            Adopture.track("logout_tapped");
             Adopture.reset();
-            show('logout + reset');
+            show("logout + reset");
           }}
         />
       </View>
@@ -53,13 +47,7 @@ export default function ProfileScreen() {
   );
 }
 
-function ListItem({
-  label,
-  onPress,
-}: {
-  label: string;
-  onPress: () => void;
-}) {
+function ListItem({ label, onPress }: { label: string; onPress: () => void }) {
   return (
     <TouchableOpacity style={styles.listItem} onPress={onPress}>
       <Text style={styles.listItemText}>{label}</Text>
@@ -69,28 +57,28 @@ function ListItem({
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#16213e', alignItems: 'center', paddingTop: 32 },
+  container: { flex: 1, backgroundColor: "#16213e", alignItems: "center", paddingTop: 32 },
   avatar: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#4f46e5',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#4f46e5",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  avatarText: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
-  name: { color: '#fff', fontSize: 24, fontWeight: 'bold', marginTop: 16 },
-  subtitle: { color: '#6b7280', fontSize: 14, marginTop: 4 },
-  list: { width: '100%', marginTop: 32 },
+  avatarText: { color: "#fff", fontSize: 28, fontWeight: "bold" },
+  name: { color: "#fff", fontSize: 24, fontWeight: "bold", marginTop: 16 },
+  subtitle: { color: "#6b7280", fontSize: 14, marginTop: 4 },
+  list: { width: "100%", marginTop: 32 },
   listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#1f2937',
+    borderBottomColor: "#1f2937",
   },
-  listItemText: { color: '#d1d5db', fontSize: 16 },
-  chevron: { color: '#6b7280', fontSize: 22 },
+  listItemText: { color: "#d1d5db", fontSize: 16 },
+  chevron: { color: "#6b7280", fontSize: 22 },
 });

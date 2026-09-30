@@ -1,19 +1,19 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 
-import { BatchSender } from './batch-sender';
-import { createConfig } from './config';
-import type { AdoptureConfig } from './config';
-import { collectContext } from './context-collector';
-import { EventQueue } from './event-queue';
-import { Hashing } from './hashing';
-import { LifecycleObserver } from './lifecycle-observer';
-import { log, setDebug } from './logger';
-import { createNavigationTracking } from './navigation';
-import type { NavigationTracking } from './navigation';
-import { validateRevenueData } from './revenue';
-import { SessionManager } from './session-manager';
-import { SuperProperties } from './super-properties';
+import { BatchSender } from "./batch-sender";
+import { createConfig } from "./config";
+import type { AdoptureConfig } from "./config";
+import { collectContext } from "./context-collector";
+import { EventQueue } from "./event-queue";
+import { Hashing } from "./hashing";
+import { LifecycleObserver } from "./lifecycle-observer";
+import { log, setDebug } from "./logger";
+import { createNavigationTracking } from "./navigation";
+import type { NavigationTracking } from "./navigation";
+import { validateRevenueData } from "./revenue";
+import { SessionManager } from "./session-manager";
+import { SuperProperties } from "./super-properties";
 import type {
   AdoptureInitOptions,
   AnalyticsEvent,
@@ -27,12 +27,12 @@ import type {
   Store,
   TrialConvertedOptions,
   TrialOptions,
-} from './types';
-import { generateUUID, utcTimestamp } from './utils';
+} from "./types";
+import { generateUUID, utcTimestamp } from "./utils";
 
-const DEVICE_ID_KEY = '@adopture/device_id';
-const USER_ID_KEY = '@adopture/user_id';
-const APP_VERSION_KEY = '@adopture/app_version';
+const DEVICE_ID_KEY = "@adopture/device_id";
+const USER_ID_KEY = "@adopture/user_id";
+const APP_VERSION_KEY = "@adopture/app_version";
 
 /** Privacy-first mobile analytics SDK for React Native & Expo. */
 export class Adopture {
@@ -93,14 +93,7 @@ export class Adopture {
     const deviceId = await Adopture.resolveDeviceId();
     const hashing = new Hashing(deviceId, config.appKey);
 
-    const instance = new Adopture(
-      config,
-      queue,
-      sender,
-      session,
-      hashing,
-      superProps,
-    );
+    const instance = new Adopture(config, queue, sender, session, hashing, superProps);
 
     // Collect device context
     instance.cachedContext = await collectContext(config.appVersion);
@@ -132,14 +125,14 @@ export class Adopture {
   static track(name: string, properties?: Record<string, string>): void {
     Adopture.assertInitialized();
     if (!Adopture.instance!.enabled) return;
-    Adopture.instance!.enqueue('track', name, properties ?? {});
+    Adopture.instance!.enqueue("track", name, properties ?? {});
   }
 
   /** Tracks a screen view. */
   static screen(name: string, properties?: Record<string, string>): void {
     Adopture.assertInitialized();
     if (!Adopture.instance!.enabled) return;
-    Adopture.instance!.enqueue('screen', name, properties ?? {});
+    Adopture.instance!.enqueue("screen", name, properties ?? {});
   }
 
   // ---------------------------------------------------------------------------
@@ -157,7 +150,7 @@ export class Adopture {
   /** Tracks an initial purchase (one-time or first subscription). */
   static trackPurchase(opts: PurchaseOptions): void {
     Adopture.trackRevenue({
-      event_type: 'INITIAL_PURCHASE',
+      event_type: "INITIAL_PURCHASE",
       product_id: opts.productId,
       price: opts.price,
       currency: opts.currency,
@@ -169,7 +162,7 @@ export class Adopture {
   /** Tracks a one-time (non-recurring) purchase. */
   static trackOneTimePurchase(opts: PurchaseOptions): void {
     Adopture.trackRevenue({
-      event_type: 'NON_RENEWING_PURCHASE',
+      event_type: "NON_RENEWING_PURCHASE",
       product_id: opts.productId,
       price: opts.price,
       currency: opts.currency,
@@ -181,7 +174,7 @@ export class Adopture {
   /** Tracks a subscription renewal. */
   static trackRenewal(opts: RenewalOptions): void {
     Adopture.trackRevenue({
-      event_type: 'RENEWAL',
+      event_type: "RENEWAL",
       product_id: opts.productId,
       price: opts.price,
       currency: opts.currency,
@@ -194,12 +187,12 @@ export class Adopture {
   /** Tracks the start of a free trial. */
   static trackTrialStarted(opts: TrialOptions): void {
     Adopture.trackRevenue({
-      event_type: 'TRIAL_STARTED',
+      event_type: "TRIAL_STARTED",
       product_id: opts.productId,
       price: 0,
-      currency: 'USD',
+      currency: "USD",
       is_trial: true,
-      period_type: 'TRIAL',
+      period_type: "TRIAL",
       store: opts.store,
       expiration_at: opts.expirationAt,
     });
@@ -208,7 +201,7 @@ export class Adopture {
   /** Tracks a trial-to-paid conversion. */
   static trackTrialConverted(opts: TrialConvertedOptions): void {
     Adopture.trackRevenue({
-      event_type: 'TRIAL_CONVERTED',
+      event_type: "TRIAL_CONVERTED",
       product_id: opts.productId,
       price: opts.price,
       currency: opts.currency,
@@ -221,10 +214,10 @@ export class Adopture {
   /** Tracks a subscription cancellation. */
   static trackCancellation(opts: CancellationOptions): void {
     Adopture.trackRevenue({
-      event_type: 'CANCELLATION',
+      event_type: "CANCELLATION",
       product_id: opts.productId,
       price: 0,
-      currency: 'USD',
+      currency: "USD",
       store: opts.store,
     });
   }
@@ -232,7 +225,7 @@ export class Adopture {
   /** Tracks a refund. */
   static trackRefund(opts: RefundOptions): void {
     Adopture.trackRevenue({
-      event_type: 'REFUND',
+      event_type: "REFUND",
       product_id: opts.productId,
       price: opts.price,
       currency: opts.currency,
@@ -252,9 +245,7 @@ export class Adopture {
   static async identify(userId: string): Promise<void> {
     Adopture.assertInitialized();
     const inst = Adopture.instance!;
-    const effectiveId = inst.config.hashUserIds
-      ? inst.hashing.hashUserId(userId)
-      : userId;
+    const effectiveId = inst.config.hashUserIds ? inst.hashing.hashUserId(userId) : userId;
     inst.userId = effectiveId;
     await AsyncStorage.setItem(USER_ID_KEY, effectiveId);
     log(`identify: ${effectiveId.substring(0, 8)}...`);
@@ -268,7 +259,7 @@ export class Adopture {
     Adopture.assertInitialized();
     Adopture.instance!.userId = null;
     await AsyncStorage.removeItem(USER_ID_KEY);
-    log('logout: user identity cleared');
+    log("logout: user identity cleared");
   }
 
   // ---------------------------------------------------------------------------
@@ -324,17 +315,13 @@ export class Adopture {
   // ---------------------------------------------------------------------------
 
   /** Registers super properties that are sent with every event. Overwrites existing keys. */
-  static async registerSuperProperties(
-    props: Record<string, string>,
-  ): Promise<void> {
+  static async registerSuperProperties(props: Record<string, string>): Promise<void> {
     Adopture.assertInitialized();
     await Adopture.instance!.superProps.register(props);
   }
 
   /** Registers super properties only if the key is not already set. */
-  static async registerSuperPropertiesOnce(
-    props: Record<string, string>,
-  ): Promise<void> {
+  static async registerSuperPropertiesOnce(props: Record<string, string>): Promise<void> {
     Adopture.assertInitialized();
     await Adopture.instance!.superProps.registerOnce(props);
   }
@@ -382,7 +369,7 @@ export class Adopture {
 
   /** The API endpoint URL. */
   static get endpoint(): string {
-    return Adopture.instance?.config.apiEndpoint ?? '';
+    return Adopture.instance?.config.apiEndpoint ?? "";
   }
 
   // ---------------------------------------------------------------------------
@@ -405,24 +392,16 @@ export class Adopture {
   // Private Methods
   // ---------------------------------------------------------------------------
 
-  private enqueue(
-    type: EventType,
-    name: string,
-    properties: Record<string, string>,
-  ): void {
+  private enqueue(type: EventType, name: string, properties: Record<string, string>): void {
     const newSession = this.session.rotateIfNeeded();
     if (newSession && this.config.autoCapture) {
-      this.enqueueRaw('track', 'session_start', {});
+      this.enqueueRaw("track", "session_start", {});
     }
     this.session.touch();
     this.enqueueRaw(type, name, properties);
   }
 
-  private enqueueRaw(
-    type: EventType,
-    name: string,
-    properties: Record<string, string>,
-  ): void {
+  private enqueueRaw(type: EventType, name: string, properties: Record<string, string>): void {
     // Merge: super props as base, event props override
     const mergedProps: Record<string, string> = {
       ...this.superProps.all,
@@ -461,14 +440,14 @@ export class Adopture {
   private enqueueRevenue(revenue: RevenueData): void {
     const newSession = this.session.rotateIfNeeded();
     if (newSession && this.config.autoCapture) {
-      this.enqueueRaw('track', 'session_start', {});
+      this.enqueueRaw("track", "session_start", {});
     }
     this.session.touch();
 
     if (this.userId == null && this.config.debug) {
       log(
-        'Warning: trackRevenue called without identify(). ' +
-          'Revenue events without a user_id have limited analytics value.',
+        "Warning: trackRevenue called without identify(). " +
+          "Revenue events without a user_id have limited analytics value.",
       );
     }
 
@@ -476,7 +455,7 @@ export class Adopture {
     const effectiveStore = revenue.store ?? Adopture.detectStore();
 
     const event: AnalyticsEvent = {
-      type: 'revenue',
+      type: "revenue",
       name: revenue.event_type,
       hashed_daily_id: this.hashing.dailyHash(),
       hashed_monthly_id: this.hashing.monthlyHash(),
@@ -512,9 +491,9 @@ export class Adopture {
   }
 
   private static detectStore(): Store {
-    if (Platform.OS === 'ios') return 'APP_STORE';
-    if (Platform.OS === 'android') return 'PLAY_STORE';
-    return 'OTHER';
+    if (Platform.OS === "ios") return "APP_STORE";
+    if (Platform.OS === "android") return "PLAY_STORE";
+    return "OTHER";
   }
 
   private setupAutoCapture(): void {
@@ -524,13 +503,13 @@ export class Adopture {
       () => {
         const newSession = this.session.rotateIfNeeded();
         if (newSession) {
-          this.enqueueRaw('track', 'session_start', {});
+          this.enqueueRaw("track", "session_start", {});
         }
-        this.enqueueRaw('track', 'app_opened', {});
+        this.enqueueRaw("track", "app_opened", {});
       },
       // onAppBackgrounded
       () => {
-        this.enqueueRaw('track', 'app_backgrounded', {});
+        this.enqueueRaw("track", "app_backgrounded", {});
         this.sender.flush().catch((e) => {
           log(`Background flush failed: ${e}`);
         });
@@ -543,9 +522,9 @@ export class Adopture {
     const currentVersion = this.cachedContext!.app_version;
 
     if (storedVersion == null) {
-      this.enqueueRaw('track', 'app_installed', { version: currentVersion });
+      this.enqueueRaw("track", "app_installed", { version: currentVersion });
     } else if (storedVersion !== currentVersion) {
-      this.enqueueRaw('track', 'app_updated', {
+      this.enqueueRaw("track", "app_updated", {
         previous_version: storedVersion,
         version: currentVersion,
       });
@@ -564,7 +543,7 @@ export class Adopture {
 
   private static assertInitialized(): void {
     if (!Adopture.instance) {
-      throw new Error('Adopture.init() must be called before using the SDK.');
+      throw new Error("Adopture.init() must be called before using the SDK.");
     }
   }
 }
